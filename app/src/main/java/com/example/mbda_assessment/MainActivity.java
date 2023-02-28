@@ -10,12 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
