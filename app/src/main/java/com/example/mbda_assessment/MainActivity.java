@@ -7,12 +7,8 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,12 +28,7 @@ public class MainActivity extends AppCompatActivity implements OverviewFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        try {
-            URL url = new URL("https://restcountries.com/v3.1/region/europe");
-            useVolley(url);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
+        fetchData();
     }
 
     public void onItemSelected(View view) {
@@ -50,13 +41,15 @@ public class MainActivity extends AppCompatActivity implements OverviewFragment.
         detailFragment.setItem(null);
     }
 
-    void useVolley(URL url) {
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url.toString(), null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                itemList = extractData(response);
 
-                // TODO: populate recyclerview
+    void fetchData() {
+        ApiClient apiClient = ApiClient.getInstance(this);
+
+        apiClient.getEuropeCountries(new Response.Listener<List<Item>>() {
+            @Override
+            public void onResponse(List<Item> items) {
+                itemList = items;
+
                 OverviewFragment overviewFragment = (OverviewFragment) getSupportFragmentManager().findFragmentById(R.id.overviewFragment);
                 overviewFragment.setItems(itemList);
             }
@@ -66,24 +59,5 @@ public class MainActivity extends AppCompatActivity implements OverviewFragment.
                 Log.d("API ERROR", error.toString());
             }
         });
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        queue.add(jsonArrayRequest);
-    }
-
-    private List<Item> extractData(JSONArray response) {
-        List<Item> data = new ArrayList<>();
-        try {
-            JSONArray countries = response;
-            for (int i = 0; i < countries.length(); i++) {
-                JSONObject country = countries.getJSONObject(i);
-                String countryName = country.getJSONObject("name").getString("common");
-                String countryDesc = country.getJSONObject("name").getString("official");
-                data.add(new Item(i, countryName, countryDesc));
-            }
-        } catch (JSONException e) {
-            Log.d("API ERROR", "JSON Error: " + e.getMessage());
-        }
-        return data;
     }
 }
