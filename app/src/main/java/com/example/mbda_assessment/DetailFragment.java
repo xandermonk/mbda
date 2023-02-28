@@ -1,12 +1,13 @@
 package com.example.mbda_assessment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 public class DetailFragment extends Fragment {
 
@@ -14,10 +15,27 @@ public class DetailFragment extends Fragment {
         // Required empty public constructor
     }
 
+    ImageView bannerImage;
+    TextView itemName;
+    TextView itemDesc;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_detail, container, false);
+
+        bannerImage = view.findViewById(R.id.countryFlag);
+        itemName = view.findViewById(R.id.countryName);
+        itemDesc = view.findViewById(R.id.countryDescription);
+
+        return view;
+    }
+
+    public void setItem(Item item) {
+        itemName.setText(item.name);
+        itemDesc.setText(item.description);
+
+        bannerImage.setImageResource(R.drawable.flag_peru);
     }
 }

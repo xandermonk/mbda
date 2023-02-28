@@ -10,10 +10,13 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
 
     TextView nameTextView;
     TextView descriptionTextView;
-    public ItemViewHolder(@NonNull View itemView) {
+    public ItemViewHolder(@NonNull View itemView, View.OnClickListener onItemClickListener) {
         super(itemView);
 
         nameTextView = itemView.findViewById(R.id.itemName);
         descriptionTextView = itemView.findViewById(R.id.itemDescription);
+
+        itemView.setTag(this);
+        itemView.setOnClickListener(onItemClickListener);
     }
 }
