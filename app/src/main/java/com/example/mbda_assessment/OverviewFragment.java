@@ -1,6 +1,7 @@
 package com.example.mbda_assessment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OverviewFragment extends Fragment {
+    List<Item> itemList = new ArrayList<>();
+    ItemAdapter adapter = new ItemAdapter(itemList);
 
     interface OnClickListener {
         void onItemSelected(View view);
@@ -31,20 +34,12 @@ public class OverviewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
 
-        List<Item> items = new ArrayList<>();
+        adapter = new ItemAdapter(itemList);
+        adapter.setOnItemClickListener(onItemClickListener);
 
-
-        for (int i = 0; i < 20; i++) {
-            items.add(new Item(i, "item"+i, "description"+i));
-        }
-
-        ItemAdapter adapter = new ItemAdapter(items);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
-
-        adapter.setOnItemClickListener(onItemClickListener);
 
         return view;
     }
@@ -58,5 +53,14 @@ public class OverviewFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         listener = (MainActivity) getActivity();
+    }
+
+    // TODO: improve code
+    public void setItems(List<Item> itemList) {
+        this.itemList.clear();
+        this.itemList = itemList;
+        // TODO: remove log
+        Log.d("myTag", String.valueOf(itemList.size()));
+        adapter.notifyDataSetChanged();
     }
 }

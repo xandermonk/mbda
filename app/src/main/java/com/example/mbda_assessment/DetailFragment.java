@@ -10,14 +10,13 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 public class DetailFragment extends Fragment {
+    ImageView bannerImage;
+    TextView itemName;
+    TextView itemDesc;
 
     public DetailFragment() {
         // Required empty public constructor
     }
-
-    ImageView bannerImage;
-    TextView itemName;
-    TextView itemDesc;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,6 +35,7 @@ public class DetailFragment extends Fragment {
         itemName.setText(item.name);
         itemDesc.setText(item.description);
 
+        // TODO: remove peru
         bannerImage.setImageResource(R.drawable.flag_peru);
     }
 }

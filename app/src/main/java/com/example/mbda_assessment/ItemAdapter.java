@@ -11,9 +11,10 @@ import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
-    List<Item> items;
+    private List<Item> items;
     private View.OnClickListener onItemClickListener;
 
+    // constructor
     ItemAdapter(List<Item> items) {
         this.items = items;
     }

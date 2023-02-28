@@ -1,6 +1,5 @@
 package com.example.mbda_assessment;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,20 +26,18 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements OverviewFragment.OnClickListener {
 
     List<Item> itemList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        try
-        {
+        try {
             URL url = new URL("https://restcountries.com/v3.1/region/europe");
             useVolley(url);
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void onItemSelected(View view) {
@@ -57,15 +54,11 @@ public class MainActivity extends AppCompatActivity implements OverviewFragment.
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url.toString(), null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                // TODO: extract data
                 itemList = extractData(response);
 
                 // TODO: populate recyclerview
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    itemList.forEach(item -> {
-
-                    });
-                }
+                OverviewFragment overviewFragment = (OverviewFragment) getSupportFragmentManager().findFragmentById(R.id.overviewFragment);
+                overviewFragment.setItems(itemList);
             }
         }, new Response.ErrorListener() {
             @Override
