@@ -34,7 +34,13 @@ public class OverviewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
 
-        adapter = new ItemAdapter(itemList);
+        List<Item> demoList = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            demoList.add(new Item(i, "name "+i, "desc " +i));
+        }
+
+
+        adapter = new ItemAdapter(demoList);
         adapter.setOnItemClickListener(onItemClickListener);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
