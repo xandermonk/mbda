@@ -7,9 +7,6 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,28 +27,19 @@ public class MainActivity extends AppCompatActivity implements OverviewFragment.
         RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
         int position = viewHolder.getAdapterPosition();
 
-        // TODO: set item
-        DetailFragment detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.detailFragment);
-        detailFragment.setItem(itemList.get(position));
+        //DetailFragment detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.detailFragment);
+        //detailFragment.setItem(itemList.get(position));
     }
 
 
     void fetchData() {
         ApiClient apiClient = ApiClient.getInstance(this);
 
-        apiClient.getEuropeCountries(new Response.Listener<List<Item>>() {
-            @Override
-            public void onResponse(List<Item> items) {
-                itemList = items;
+        apiClient.getEuropeCountries(items -> {
+            itemList = items;
 
-                OverviewFragment overviewFragment = (OverviewFragment) getSupportFragmentManager().findFragmentById(R.id.overviewFragment);
-                overviewFragment.setItems(itemList);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("API ERROR", error.toString());
-            }
-        });
+            OverviewFragment overviewFragment = (OverviewFragment) getSupportFragmentManager().findFragmentById(R.id.overviewFragment);
+            overviewFragment.setItems(itemList);
+        }, error -> Log.d("API ERROR", error.toString()));
     }
 }

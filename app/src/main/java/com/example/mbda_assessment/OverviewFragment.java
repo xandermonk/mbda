@@ -19,9 +19,12 @@ public class OverviewFragment extends Fragment {
     List<Item> itemList = new ArrayList<>();
     ItemAdapter adapter = new ItemAdapter(itemList);
 
+    RecyclerView recyclerView;
+
     interface OnClickListener {
         void onItemSelected(View view);
     }
+
     OnClickListener listener;
 
     public OverviewFragment() {
@@ -35,15 +38,15 @@ public class OverviewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
 
         List<Item> demoList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            demoList.add(new Item(i, "name "+i, "desc " +i));
+        for (int i = 0; i < 2; i++) {
+            demoList.add(new Item(i, "name " + i, "desc " + i));
         }
 
 
         adapter = new ItemAdapter(demoList);
         adapter.setOnItemClickListener(onItemClickListener);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
@@ -63,10 +66,9 @@ public class OverviewFragment extends Fragment {
 
     // TODO: improve code
     public void setItems(List<Item> itemList) {
-        this.itemList.clear();
-        this.itemList = itemList;
-        // TODO: remove log
-        Log.d("myTag", String.valueOf(itemList.size()));
-        adapter.notifyDataSetChanged();
+        adapter = new ItemAdapter(itemList);
+        adapter.setOnItemClickListener(onItemClickListener);
+
+        recyclerView.setAdapter(adapter);
     }
 }
