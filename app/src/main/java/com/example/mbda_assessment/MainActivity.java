@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements OverviewFragment.
 
         // TODO: set item
         DetailFragment detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.detailFragment);
-        detailFragment.setItem(null);
+        detailFragment.setItem(itemList.get(position));
     }
 
 
