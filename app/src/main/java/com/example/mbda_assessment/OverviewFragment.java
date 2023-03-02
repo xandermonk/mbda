@@ -18,7 +18,6 @@ import java.util.List;
 public class OverviewFragment extends Fragment {
     List<Item> itemList = new ArrayList<>();
     ItemAdapter adapter = new ItemAdapter(itemList);
-
     RecyclerView recyclerView;
 
     interface OnClickListener {
@@ -37,13 +36,7 @@ public class OverviewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
 
-        List<Item> demoList = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            demoList.add(new Item(i, "name " + i, "desc " + i));
-        }
-
-
-        adapter = new ItemAdapter(demoList);
+        adapter = new ItemAdapter(itemList);
         adapter.setOnItemClickListener(onItemClickListener);
 
         recyclerView = view.findViewById(R.id.recyclerView);

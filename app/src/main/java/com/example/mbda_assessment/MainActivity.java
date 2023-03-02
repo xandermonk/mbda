@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements OverviewFragment.
         //detailFragment.setItem(itemList.get(position));
     }
 
-
     void fetchData() {
         ApiClient apiClient = ApiClient.getInstance(this);
 
