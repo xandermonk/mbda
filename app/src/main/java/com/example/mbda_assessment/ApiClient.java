@@ -54,7 +54,8 @@ public class ApiClient {
                 JSONObject country = countries.getJSONObject(i);
                 String countryName = country.getJSONObject("name").getString("common");
                 String countryDesc = country.getJSONObject("name").getString("official");
-                data.add(new Item(i, countryName, countryDesc));
+                String countryFlag = country.getJSONObject("flags").getString("png");
+                data.add(new Item(i, countryName, countryDesc, countryFlag));
             }
         } catch (JSONException e) {
             Log.d("API ERROR", "JSON Error: " + e.getMessage());
