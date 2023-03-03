@@ -34,14 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
         // create list of items
         fetchData();
-
-        List<Item> demoList = new ArrayList<>();
-        demoList.add(new Item(1, "Name", "Desc", "imagePath"));
-        demoList.add(new Item(2, "Name", "Desc", "imagePath"));
-
-        itemAdapter = new ItemAdapter(demoList, this);
-        recyclerView.setAdapter(itemAdapter);
-
     }
 
     private void setupToolbar() {
@@ -59,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
 
         apiClient.getEuropeCountries(items -> {
             itemList = items;
+
+
+            ItemAdapter adapter = new ItemAdapter(itemList, this);
+            recyclerView.setAdapter(adapter);
+
+
         }, error -> Log.d("API ERROR", error.toString()));
     }
 }
