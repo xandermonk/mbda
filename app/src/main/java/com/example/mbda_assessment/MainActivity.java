@@ -5,32 +5,46 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OverviewFragment.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
-    List<Item> itemList = new ArrayList<>();
+    private List<Item> itemList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private ItemAdapter itemAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // setup toolbar
+        setupToolbar();
+
+        // Initialize RecyclerView
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // create list of items
         fetchData();
     }
 
-    public void onItemSelected(View view) {
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
-        int position = viewHolder.getAdapterPosition();
-
-        //DetailFragment detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.detailFragment);
-        //detailFragment.setItem(itemList.get(position));
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
     }
-
 
     void fetchData() {
         ApiClient apiClient = ApiClient.getInstance(this);
@@ -38,8 +52,11 @@ public class MainActivity extends AppCompatActivity implements OverviewFragment.
         apiClient.getEuropeCountries(items -> {
             itemList = items;
 
-            OverviewFragment overviewFragment = (OverviewFragment) getSupportFragmentManager().findFragmentById(R.id.overviewFragment);
-            overviewFragment.setItems(itemList);
+
+            ItemAdapter adapter = new ItemAdapter(itemList, this);
+            recyclerView.setAdapter(adapter);
+
+
         }, error -> Log.d("API ERROR", error.toString()));
     }
 }
