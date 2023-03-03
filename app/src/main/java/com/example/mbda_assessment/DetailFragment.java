@@ -27,26 +27,37 @@ import java.util.concurrent.Executors;
 
 public class DetailFragment extends Fragment {
     ImageView bannerImage;
-    TextView itemName;
-    TextView itemDesc;
+    TextView nameTextView;
+    TextView descriptionTextView;
     Item item;
 
+    public DetailFragment() {
+        // Required empty public constructor
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.d("myTag", "Building view!");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
+        // Retrieve data for clicked item from bundle
+        Bundle bundle = getArguments();
+        String name = bundle.getString("name");
+        String description = bundle.getString("description");
+        // TODO: properly get image
+        int coverImage = bundle.getInt("coverImage");
+
+        // Display data in Detail Fragment layout
+        nameTextView = view.findViewById(R.id.countryName);
+        descriptionTextView = view.findViewById(R.id.countryDescription);
         bannerImage = view.findViewById(R.id.countryFlag);
 
-        itemName = view.findViewById(R.id.countryName);
-        itemName.setText(item.name);
 
-        itemDesc = view.findViewById(R.id.countryDescription);
-        itemDesc.setText(item.description);
+        nameTextView.setText(name);
+        descriptionTextView.setText(description);
+        bannerImage.setImageResource(coverImage);
 
         return view;
     }

@@ -8,23 +8,40 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OverviewFragment.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
-    List<Item> itemList = new ArrayList<>();
+    private List<Item> itemList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private ItemAdapter itemAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // setup toolbar
         setupToolbar();
 
+        // Initialize RecyclerView
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // create list of items
         fetchData();
+
+        List<Item> demoList = new ArrayList<>();
+        demoList.add(new Item(1, "Name", "Desc", "imagePath"));
+        demoList.add(new Item(2, "Name", "Desc", "imagePath"));
+
+        itemAdapter = new ItemAdapter(demoList, this);
+        recyclerView.setAdapter(itemAdapter);
+
     }
 
     private void setupToolbar() {
@@ -37,30 +54,11 @@ public class MainActivity extends AppCompatActivity implements OverviewFragment.
         }
     }
 
-    public void onItemSelected(View view) {
-
-        RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
-        int position = viewHolder.getAdapterPosition();
-
-        DetailFragment detailFragment = new DetailFragment();
-        detailFragment.setItem(itemList.get(position));
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentTransaction.replace(R.id.overviewFragment, detailFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
-
     void fetchData() {
         ApiClient apiClient = ApiClient.getInstance(this);
 
         apiClient.getEuropeCountries(items -> {
             itemList = items;
-
-            OverviewFragment overviewFragment = (OverviewFragment) getSupportFragmentManager().findFragmentById(R.id.overviewFragment);
-            overviewFragment.setItems(itemList);
         }, error -> Log.d("API ERROR", error.toString()));
     }
 }
