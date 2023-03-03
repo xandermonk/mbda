@@ -1,5 +1,6 @@
 package com.example.mbda_assessment;
 
+import android.app.ActionBar;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -28,6 +30,7 @@ public class DetailFragment extends Fragment {
     TextView itemName;
     TextView itemDesc;
     Item item;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

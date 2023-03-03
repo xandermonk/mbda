@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +22,19 @@ public class MainActivity extends AppCompatActivity implements OverviewFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setupToolbar();
+
         fetchData();
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
     }
 
     public void onItemSelected(View view) {
@@ -31,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements OverviewFragment.
         int position = viewHolder.getAdapterPosition();
 
         DetailFragment detailFragment = new DetailFragment();
-        Log.d("myTag", String.valueOf(itemList.get(position)));
         detailFragment.setItem(itemList.get(position));
 
         FragmentManager fragmentManager = getSupportFragmentManager();
