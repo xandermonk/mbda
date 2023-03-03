@@ -55,7 +55,9 @@ public class ApiClient {
                 String countryName = country.getJSONObject("name").getString("common");
                 String countryDesc = country.getJSONObject("name").getString("official");
                 String countryFlag = country.getJSONObject("flags").getString("png");
-                data.add(new Item(i, countryName, countryDesc, countryFlag));
+                double latitude = country.getJSONArray("latlng").getDouble(0);
+                double longitude = country.getJSONArray("latlng").getDouble(1);
+                data.add(new Item(i, countryName, countryDesc, countryFlag, latitude, longitude));
             }
         } catch (JSONException e) {
             Log.d("API ERROR", "JSON Error: " + e.getMessage());
