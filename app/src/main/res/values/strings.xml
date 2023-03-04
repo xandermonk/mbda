@@ -3,6 +3,8 @@
     <string name="flag_image">Flag Image</string>
     <string name="country_name">Country</string>
     <string name="country_desc">Description</string>
-    <string name="location_button_text">Eigen locatie opvragen</string>
+    <string name="location_button_text">Afstand berekenen</string>
     <string name="blank"></string>
+    <string name="invite_friend">persoon uitnodigen</string>
+    <string name="distance_from_country">You are %1$s kilometers away from %2$s!</string>
 </resources>
