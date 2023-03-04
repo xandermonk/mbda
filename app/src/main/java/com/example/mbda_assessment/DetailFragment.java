@@ -51,7 +51,6 @@ public class DetailFragment extends Fragment {
             nameTextView = view.findViewById(R.id.countryName);
             descriptionTextView = view.findViewById(R.id.countryDescription);
             bannerImage = view.findViewById(R.id.countryFlag);
-            distanceFromCountry = view.findViewById(R.id.distanceFromCountry);
 
 
             nameTextView.setText(item.name);

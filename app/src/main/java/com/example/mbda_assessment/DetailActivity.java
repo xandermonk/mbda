@@ -1,7 +1,6 @@
 package com.example.mbda_assessment;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -11,14 +10,13 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.Manifest;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -27,9 +25,7 @@ public class DetailActivity extends AppCompatActivity {
     private Item item;
     private LocationManager locationManager;
     private LocationListener locationListener;
-    private DetailFragment detailFragment;
     private ActivityResultLauncher<Intent> getContent;
-    private static final int REQUEST_CODE_PICK_CONTACT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +37,7 @@ public class DetailActivity extends AppCompatActivity {
         item = (Item) intent.getSerializableExtra("item");
 
         // Load Detail Fragment
-        detailFragment = new DetailFragment();
+        DetailFragment detailFragment = new DetailFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("item", item);
         detailFragment.setArguments(bundle);
@@ -71,8 +67,7 @@ public class DetailActivity extends AppCompatActivity {
                 if(item != null) {
                     String distance = MyUtils.calculateDistance(item.latitude, item.longitude, location.getLatitude(), location.getLongitude());
 
-                    String distanceFromCountryString = getString(R.string.distance_from_country, distance, item.name);
-                    detailFragment.distanceFromCountry.setText(distanceFromCountryString);
+                    MyUtils.showDialog("Distance calculated!", "You are " + distance + " kilometers away from " + item.name + "!", DetailActivity.this);
                 }
             }
 
@@ -107,7 +102,7 @@ public class DetailActivity extends AppCompatActivity {
                             int nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY);
                             if (nameIndex != -1) {
                                 name = cursor.getString(nameIndex);
-                                showContactInvitation(name);
+                                MyUtils.showDialog("Invitation sent!", "You just invited " + name + " to join you on your journey!", this);
                             }
                         }
                         if (cursor != null) {
@@ -146,19 +141,8 @@ public class DetailActivity extends AppCompatActivity {
         getContent.launch(intent);
     }
 
-    private void showContactInvitation(String name) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Invitation sent");
-        builder.setMessage("You just invited " + name + " to join you on your journey!");
-        builder.setPositiveButton("OK", (dialog, which) -> {
-            // Do nothing
-        });
-        builder.show();
-    }
-
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         // Request location updates
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
