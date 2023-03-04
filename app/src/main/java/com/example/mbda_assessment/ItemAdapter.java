@@ -45,9 +45,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> {
             public void onClick(View v) {
                 // Start Detail Activity
                 Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("name", item.name);
-                intent.putExtra("description", item.description);
-                intent.putExtra("coverImage", item.imagePath);
+                intent.putExtra("item", item);
                 context.startActivity(intent);
             }
         });

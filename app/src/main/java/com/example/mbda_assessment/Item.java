@@ -1,6 +1,8 @@
 package com.example.mbda_assessment;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
 
     int id;
     String name;
