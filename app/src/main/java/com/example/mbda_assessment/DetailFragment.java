@@ -29,7 +29,7 @@ public class DetailFragment extends Fragment {
     ImageView bannerImage;
     TextView nameTextView;
     TextView descriptionTextView;
-    Item item;
+    TextView distanceFromCountry;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -42,27 +42,24 @@ public class DetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        // Retrieve data for clicked item from bundle
-        Bundle bundle = getArguments();
-        String name = bundle.getString("name");
-        String description = bundle.getString("description");
-        // TODO: properly get image
-        int coverImage = bundle.getInt("coverImage");
+        // Retrieve item data
+        Bundle args = getArguments();
+        if (args != null) {
+            Item item = (Item) args.getSerializable("item");
 
-        // Display data in Detail Fragment layout
-        nameTextView = view.findViewById(R.id.countryName);
-        descriptionTextView = view.findViewById(R.id.countryDescription);
-        bannerImage = view.findViewById(R.id.countryFlag);
+            // Display data in Detail Fragment layout
+            nameTextView = view.findViewById(R.id.countryName);
+            descriptionTextView = view.findViewById(R.id.countryDescription);
+            bannerImage = view.findViewById(R.id.countryFlag);
+            distanceFromCountry = view.findViewById(R.id.distanceFromCountry);
 
 
-        nameTextView.setText(name);
-        descriptionTextView.setText(description);
-        bannerImage.setImageResource(coverImage);
+            nameTextView.setText(item.name);
+            descriptionTextView.setText(item.description);
+            //bannerImage.setImageResource(item.imagePath);
+        }
+
 
         return view;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
     }
 }

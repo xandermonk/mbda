@@ -1,6 +1,7 @@
 package com.example.mbda_assessment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,48 +15,60 @@ import android.Manifest;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import java.text.DecimalFormat;
+
 public class DetailActivity extends AppCompatActivity {
     Item item;
     LocationManager locationManager;
     LocationListener locationListener;
+
+    DetailFragment detailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        // retrieve Item data
+        Intent intent = getIntent();
+        item = (Item) intent.getSerializableExtra("item");
+
         // Load Detail Fragment
-        DetailFragment detailFragment = new DetailFragment();
-        detailFragment.setArguments(getIntent().getExtras());
+        detailFragment = new DetailFragment();
+        Bundle bundle = new Bundle();
+
+        bundle.putSerializable("item", item);
+        detailFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, detailFragment)
                 .commit();
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        item = detailFragment.item;
+
         locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 // TODO: show location
                 //calculateDistance();
                 if(item != null) {
-                    Log.d("myTag", String.valueOf(calculateDistance(item.latitude, item.longitude, location.getLatitude(), location.getLongitude())));
+                    String distance = calculateDistance(item.latitude, item.longitude, location.getLatitude(), location.getLongitude());
+                    detailFragment.distanceFromCountry.setText("You are " + distance + " kilometers away from " + item.name + "!");
                 }
             }
 
             @Override
             public void onProviderDisabled(String provider) {
+                // Placeholder implementation
             }
 
             @Override
             public void onProviderEnabled(String provider) {
+                // Placeholder implementation
             }
 
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
                 // Placeholder implementation
             }
-
-
         };
     }
 
@@ -95,7 +108,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    public double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+    public String calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         final int R = 6371; // Radius of the earth in kilometers
 
         double latDistance = Math.toRadians(lat2 - lat1);
@@ -106,10 +119,11 @@ public class DetailActivity extends AppCompatActivity {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = R * c; // convert to km
 
-        return distance;
+        // Format the distance as a string with two decimal places
+        DecimalFormat df = new DecimalFormat("#.##");
+
+        return df.format(distance);
     }
-
-
 
     @Override
     public void onBackPressed() {
