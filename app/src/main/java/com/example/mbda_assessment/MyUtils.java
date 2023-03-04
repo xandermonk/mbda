@@ -26,4 +26,14 @@ public class MyUtils {
 
         return df.format(distance);
     }
+
+    public static void showDialog(String title, String message, Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            // Do nothing
+        });
+        builder.show();
+    }
 }
