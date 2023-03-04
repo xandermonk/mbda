@@ -29,7 +29,6 @@ public class DetailFragment extends Fragment {
     ImageView bannerImage;
     TextView nameTextView;
     TextView descriptionTextView;
-    TextView distanceFromCountry;
 
     public DetailFragment() {
         // Required empty public constructor
