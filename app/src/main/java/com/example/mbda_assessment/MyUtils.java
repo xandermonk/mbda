@@ -2,9 +2,19 @@ package com.example.mbda_assessment;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AlertDialog;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.text.DecimalFormat;
 
 public class MyUtils {
@@ -36,4 +46,37 @@ public class MyUtils {
         });
         builder.show();
     }
+
+    public static void loadImageFromUrl(String url, ImageView imageView) {
+        new DownloadImageTask(imageView).execute(url);
+    }
+
+    private static class DownloadImageTask extends AsyncTask<String, Void, Drawable> {
+
+        private ImageView imageView;
+
+        public DownloadImageTask(ImageView imageView) {
+            this.imageView = imageView;
+        }
+
+        @Override
+        protected Drawable doInBackground(String... urls) {
+            String imageUrl = urls[0];
+            try {
+                Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(imageUrl).getContent());
+                return new BitmapDrawable(Resources.getSystem(), bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Drawable drawable) {
+            if (drawable != null) {
+                imageView.setImageDrawable(drawable);
+            }
+        }
+    }
+
 }

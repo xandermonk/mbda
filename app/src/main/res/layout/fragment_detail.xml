@@ -10,6 +10,7 @@
     <ImageView
         android:id="@+id/countryFlag"
         android:layout_width="0dp"
+        android:minHeight="200dp"
         android:layout_height="wrap_content"
         android:contentDescription="@string/flag_image"
         android:scaleType="centerCrop"

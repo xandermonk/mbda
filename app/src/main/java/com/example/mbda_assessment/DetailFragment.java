@@ -54,7 +54,7 @@ public class DetailFragment extends Fragment {
 
             nameTextView.setText(item.name);
             descriptionTextView.setText(item.description);
-            //bannerImage.setImageResource(item.imagePath);
+            MyUtils.loadImageFromUrl(item.imagePath, bannerImage);
         }
 
 

@@ -40,14 +40,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> {
         holder.nameTextView.setText(item.name);
         holder.descriptionTextView.setText(item.description);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Start Detail Activity
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("item", item);
-                context.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            // Start Detail Activity
+            Intent intent = new Intent(context, DetailActivity.class);
+            intent.putExtra("item", item);
+            context.startActivity(intent);
         });
     }
 

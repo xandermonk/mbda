@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ItemViewHolder extends RecyclerView.ViewHolder {
-    // TODO: add image
     TextView nameTextView;
     TextView descriptionTextView;
     public ItemViewHolder(@NonNull View itemView) {
