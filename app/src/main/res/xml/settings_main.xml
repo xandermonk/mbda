@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="show"
+        android:title="Show Country"/>
+    <PreferenceScreen
+        android:title="Specify Country">
+        <EditTextPreference
+            android:inputType="textCapWords"
+            android:key="name"
+            android:title="Enter country"/>
+    </PreferenceScreen>
+    <PreferenceCategory
+        android:title="Options">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="background"
+            android:title="Background"/>
+        <MultiSelectListPreference
+            android:entries="@array/flipping_names"
+            android:entryValues="@array/flipping_values"
+            android:key="flipping"
+            android:title="Select Flipping"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
+

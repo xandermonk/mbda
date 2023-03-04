@@ -2,6 +2,7 @@ package com.example.mbda_assessment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
@@ -10,18 +11,27 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.Manifest;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 
 public class DetailActivity extends AppCompatActivity {
@@ -51,6 +61,8 @@ public class DetailActivity extends AppCompatActivity {
         // Initialize Location Manager and Listener
         initLocation();
         initContact();
+        setupToolbar();
+
     }
 
     @Override
@@ -61,6 +73,7 @@ public class DetailActivity extends AppCompatActivity {
         setupGetLocationButton();
         setupContactButton();
         setupShowLocationButton();
+        setCountry();
     }
 
     private void initLocation() {
@@ -184,11 +197,53 @@ public class DetailActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivityForResult(intent, 1);
+        return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        setCountry();
+    }
+
+    void setCountry()
+    {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        boolean show = preferences.getBoolean("show", true);
+        String name = preferences.getString("name", "");
+        String country = preferences.getString("country", "");
+        boolean bckgrnd = preferences.getBoolean("background", true);
+
+        Set<String> flipping = preferences.getStringSet("flipping", Collections.<String>emptySet());
+        int flag = getResources().getIdentifier(country, "drawable", getPackageName());
+
+        View view = findViewById(android.R.id.content);
+        view.setAlpha(show ? (float) 1.0 : (float) 0.25);
+
+        ImageView imageView = (ImageView) findViewById(R.id.countryFlag);
+        imageView.setBackgroundResource(bckgrnd? android.R.color.darker_gray : android.R.color.transparent);
+        imageView.setScaleX(flipping.contains("horizontal") ? -1 : 1);
+        imageView.setScaleY(flipping.contains("vertical") ? -1 : 1);
     }
 }

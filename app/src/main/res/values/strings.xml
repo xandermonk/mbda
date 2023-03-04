@@ -6,4 +6,13 @@
     <string name="location_button_text">Afstand berekenen</string>
     <string name="invite_friend">persoon uitnodigen</string>
     <string name="show_location">Locatie tonen op kaart</string>
+
+      <string-array name="flipping_names">
+        <item>Horizontal</item>
+        <item>Vertical</item>
+    </string-array>
+    <string-array name="flipping_values">
+        <item>horizontal</item>
+        <item>vertical</item>
+    </string-array>
 </resources>
