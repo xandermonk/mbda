@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
             ItemAdapter adapter = new ItemAdapter(itemList, this);
             recyclerView.setAdapter(adapter);
 
-
         }, error -> Log.d("API ERROR", error.toString()));
     }
 }
