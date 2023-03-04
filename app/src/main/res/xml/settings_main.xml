@@ -5,19 +5,10 @@
         android:defaultValue="true"
         android:key="show"
         android:title="Show Country"/>
-    <PreferenceScreen
-        android:title="Specify Country">
-        <EditTextPreference
-            android:inputType="textCapWords"
-            android:key="name"
-            android:title="Enter country"/>
-    </PreferenceScreen>
+
     <PreferenceCategory
         android:title="Options">
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="background"
-            android:title="Background"/>
+
         <MultiSelectListPreference
             android:entries="@array/flipping_names"
             android:entryValues="@array/flipping_values"

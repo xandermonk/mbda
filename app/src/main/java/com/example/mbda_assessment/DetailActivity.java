@@ -59,21 +59,32 @@ public class DetailActivity extends AppCompatActivity {
                 .commit();
 
         // Initialize Location Manager and Listener
+
         initLocation();
         initContact();
         setupToolbar();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+        setupToolbar();
         // set up buttons once the view is loaded
         setupGetLocationButton();
         setupContactButton();
         setupShowLocationButton();
         setCountry();
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
     }
 
     private void initLocation() {
@@ -203,15 +214,6 @@ public class DetailActivity extends AppCompatActivity {
         finish();
     }
 
-    private void setupToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        if (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent intent = new Intent(this, SettingsActivity.class);
@@ -233,7 +235,6 @@ public class DetailActivity extends AppCompatActivity {
         boolean show = preferences.getBoolean("show", true);
         String name = preferences.getString("name", "");
         String country = preferences.getString("country", "");
-        boolean bckgrnd = preferences.getBoolean("background", true);
 
         Set<String> flipping = preferences.getStringSet("flipping", Collections.<String>emptySet());
         int flag = getResources().getIdentifier(country, "drawable", getPackageName());
@@ -242,7 +243,6 @@ public class DetailActivity extends AppCompatActivity {
         view.setAlpha(show ? (float) 1.0 : (float) 0.25);
 
         ImageView imageView = (ImageView) findViewById(R.id.countryFlag);
-        imageView.setBackgroundResource(bckgrnd? android.R.color.darker_gray : android.R.color.transparent);
         imageView.setScaleX(flipping.contains("horizontal") ? -1 : 1);
         imageView.setScaleY(flipping.contains("vertical") ? -1 : 1);
     }
