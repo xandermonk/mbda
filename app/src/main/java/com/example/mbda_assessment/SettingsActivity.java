@@ -1,9 +1,5 @@
 package com.example.mbda_assessment;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -14,6 +10,9 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Collections;
 import java.util.Set;
@@ -38,6 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         }
+
         private String updateSummary(Preference p)
         {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(p.getContext());
@@ -58,7 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
             else if (p instanceof MultiSelectListPreference)
             {
-                Set<String> values = preferences.getStringSet(p.getKey(), Collections.<String>emptySet());
+                Set<String> values = preferences.getStringSet(p.getKey(), Collections.emptySet());
                 for (String value : values)
                 {
                     int index = ((MultiSelectListPreference) p).findIndexOfValue(value);
