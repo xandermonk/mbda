@@ -3,16 +3,13 @@ package com.example.mbda_assessment;
 import java.io.Serializable;
 
 public class Item implements Serializable {
+    final String name;
+    final String description;
+    final String imagePath;
+    final double latitude;
+    final double longitude;
 
-    int id;
-    String name;
-    String description;
-    String imagePath;
-    double latitude;
-    double longitude;
-
-    Item (int id, String name, String description, String imagePath, double lat, double lng) {
-        this.id = id;
+    Item (String name, String description, String imagePath, double lat, double lng) {
         this.name = name;
         this.description = description;
         this.imagePath = imagePath;

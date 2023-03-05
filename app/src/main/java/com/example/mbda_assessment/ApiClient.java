@@ -21,7 +21,7 @@ public class ApiClient {
     private static final String BASE_URL = "https://restcountries.com/v3.1/";
 
     private static ApiClient instance;
-    private RequestQueue requestQueue;
+    private final RequestQueue requestQueue;
 
     private ApiClient(Context context) {
         requestQueue = Volley.newRequestQueue(context.getApplicationContext());
@@ -36,12 +36,9 @@ public class ApiClient {
 
     public void getEuropeCountries(Response.Listener<List<Item>> successListener, Response.ErrorListener errorListener) {
         String url = BASE_URL + "region/europe";
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                List<Item> items = extractData(response);
-                successListener.onResponse(items);
-            }
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
+            List<Item> items = extractData(response);
+            successListener.onResponse(items);
         }, errorListener);
         requestQueue.add(request);
     }
@@ -49,15 +46,14 @@ public class ApiClient {
     private List<Item> extractData(JSONArray response) {
         List<Item> data = new ArrayList<>();
         try {
-            JSONArray countries = response;
-            for (int i = 0; i < countries.length(); i++) {
-                JSONObject country = countries.getJSONObject(i);
+            for (int i = 0; i < response.length(); i++) {
+                JSONObject country = response.getJSONObject(i);
                 String countryName = country.getJSONObject("name").getString("common");
                 String countryDesc = country.getJSONObject("name").getString("official");
                 String countryFlag = country.getJSONObject("flags").getString("png");
                 double latitude = country.getJSONArray("latlng").getDouble(0);
                 double longitude = country.getJSONArray("latlng").getDouble(1);
-                data.add(new Item(i, countryName, countryDesc, countryFlag, latitude, longitude));
+                data.add(new Item(countryName, countryDesc, countryFlag, latitude, longitude));
             }
         } catch (JSONException e) {
             Log.d("API ERROR", "JSON Error: " + e.getMessage());

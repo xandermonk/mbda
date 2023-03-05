@@ -1,7 +1,6 @@
 package com.example.mbda_assessment;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,6 +36,7 @@ public class MyUtils {
         return df.format(distance);
     }
 
+    // shows popup dialog
     public static void showDialog(String title, String message, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
@@ -47,13 +47,14 @@ public class MyUtils {
         builder.show();
     }
 
+    // loads an image from a webservice
     public static void loadImageFromUrl(String url, ImageView imageView) {
         new DownloadImageTask(imageView).execute(url);
     }
 
     private static class DownloadImageTask extends AsyncTask<String, Void, Drawable> {
 
-        private ImageView imageView;
+        private final ImageView imageView;
 
         public DownloadImageTask(ImageView imageView) {
             this.imageView = imageView;
