@@ -27,7 +27,6 @@
         android:contentDescription="@string/flag_image"
         android:minHeight="200dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/flag_peru"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

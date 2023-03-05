@@ -28,7 +28,11 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // create list of items
+        // set dummy adapter
+        ItemAdapter adapter = new ItemAdapter(itemList, this);
+        recyclerView.setAdapter(adapter);
+
+        // create list of items and set correct adapter
         fetchData();
     }
 

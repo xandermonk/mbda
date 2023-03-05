@@ -14,6 +14,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -63,6 +65,13 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return true;
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
@@ -79,11 +88,6 @@ public class DetailActivity extends AppCompatActivity {
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        if (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
     }
 
     private void initLocation() {
@@ -205,6 +209,7 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Log.d("myTag", "clicked!");
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivityForResult(intent, 1);
         return true;
@@ -213,11 +218,10 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         setCountry();
     }
 
-    void setCountry()
+    private void setCountry()
     {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
