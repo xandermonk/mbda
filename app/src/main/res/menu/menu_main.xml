@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/toolbar_settings"
-        android:icon="@android:drawable/btn_star_big_off"
-        android:title="Settings"
+        android:icon="@android:drawable/btn_dropdown"
+        android:title="@string/settings_title"
         app:showAsAction="ifRoom"/>
 </menu>
