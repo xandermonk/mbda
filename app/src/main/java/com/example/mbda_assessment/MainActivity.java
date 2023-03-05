@@ -2,35 +2,44 @@ package com.example.mbda_assessment;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OverviewFragment.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
-    List<Item> itemList = new ArrayList<>();
+    private List<Item> itemList = new ArrayList<>();
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // setup toolbar
+        setupToolbar();
+
+        // Initialize RecyclerView
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // set dummy adapter
+        ItemAdapter adapter = new ItemAdapter(itemList, this);
+        recyclerView.setAdapter(adapter);
+
+        // create list of items and set correct adapter
         fetchData();
     }
 
-    public void onItemSelected(View view) {
-
-        RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
-        int position = viewHolder.getAdapterPosition();
-
-        //DetailFragment detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.detailFragment);
-        //detailFragment.setItem(itemList.get(position));
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
-
 
     void fetchData() {
         ApiClient apiClient = ApiClient.getInstance(this);
@@ -38,8 +47,10 @@ public class MainActivity extends AppCompatActivity implements OverviewFragment.
         apiClient.getEuropeCountries(items -> {
             itemList = items;
 
-            OverviewFragment overviewFragment = (OverviewFragment) getSupportFragmentManager().findFragmentById(R.id.overviewFragment);
-            overviewFragment.setItems(itemList);
+
+            ItemAdapter adapter = new ItemAdapter(itemList, this);
+            recyclerView.setAdapter(adapter);
+
         }, error -> Log.d("API ERROR", error.toString()));
     }
 }
