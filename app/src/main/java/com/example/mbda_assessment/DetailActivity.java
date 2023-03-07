@@ -191,15 +191,8 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW, locationUri);
         intent.setPackage("com.google.android.apps.maps");
 
-        // Verify that the user has Google Maps installed
-        PackageManager packageManager = getPackageManager();
-        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        boolean isIntentSafe = activities.size() > 0;
-
-        // If Google Maps is installed, open the location in the app
-        if (isIntentSafe) {
-            startActivity(intent);
-        }
+        // Open the location in the app
+        startActivity(intent);
     }
     @Override
     public void onBackPressed() {
